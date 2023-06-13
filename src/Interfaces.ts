@@ -9,10 +9,3 @@ export interface LabelInterface {
   x: number
   y: number
 }
-
-export interface PositionInterface {
-  title?: string
-  caption?: string
-  stones: StoneInterface[]
-  labels: LabelInterface[]
-}

@@ -1,9 +1,10 @@
-import { PositionInterface } from './Interfaces'
+import { Position } from './Position'
+import { removeArrayElement } from './util/removeArrayElement'
 
 export class Diagram {
   private title?: string
   private description?: string
-  private positions: PositionInterface[] = []
+  private positions: Position[] = []
 
   constructor(title?: string, description?: string) {
     this.title = title
@@ -16,22 +17,19 @@ export class Diagram {
   getDescription(): string | undefined {
     return this.description ?? undefined
   }
-  getPositions(): PositionInterface[] {
+  getPositions(): Position[] {
     return this.positions
   }
 
-  addPosition(position: PositionInterface): void {
+  addPosition(position: Position): void {
     this.positions.push(position)
   }
 
   removePosition(index: number): void {
-    if (index === this.positions.length - 1) this.positions.pop()
-    if (index === 0) this.positions.shift
-
-    this.positions = this.positions.slice(0, index).concat(this.positions.slice((index = 1)))
+    this.positions = removeArrayElement(this.positions, index)
   }
 
-  updatePosition(position: PositionInterface, index: number): void {
+  updatePosition(position: Position, index: number): void {
     this.positions[index] = position
   }
 }
