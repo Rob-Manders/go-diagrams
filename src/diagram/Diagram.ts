@@ -1,5 +1,5 @@
-import { Position } from './Position'
-import { removeArrayElement } from './util/removeArrayElement'
+import { Position } from '..'
+import { removeArrayElement } from '../util/removeArrayElement'
 
 export class Diagram {
   private title?: string
