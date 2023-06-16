@@ -1,21 +1,23 @@
-export function drawLines(ctx: CanvasRenderingContext2D, boardDimensions: number, boardSize: number): void {
-  const squareSize = boardDimensions / boardSize
+import { Board } from './interfaces'
+
+export function drawLines(ctx: CanvasRenderingContext2D, board: Board): void {
+  const squareSize = board.dimensions / board.size
   const startPos = squareSize / 2
-  const endPos = boardDimensions - squareSize / 2
+  const endPos = board.dimensions - squareSize / 2
 
   let x = startPos
   let y = startPos
 
   drawLine(ctx, startPos, y, endPos, y)
 
-  for (let i = 1; i < boardSize; i++) {
+  for (let i = 1; i < board.size; i++) {
     y += squareSize
     drawLine(ctx, startPos, y, endPos, y)
   }
 
   drawLine(ctx, x, startPos, x, endPos)
 
-  for (let i = 1; i < boardSize; i++) {
+  for (let i = 1; i < board.size; i++) {
     x += squareSize
     drawLine(ctx, x, startPos, x, endPos)
   }

@@ -10,7 +10,7 @@ const board = {
 
 const { canvas, ctx } = createCanvas('canvas', board.dimensions)
 
-drawLines(ctx, board.dimensions, board.size)
+drawLines(ctx, board)
 
 const mousePosReadout = document.createElement('h3')
 mousePosReadout.setAttribute('id', 'mousePosReadout')
