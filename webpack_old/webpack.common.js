@@ -1,13 +1,7 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/index.ts',
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Go Diagrams'
-    })
-  ],
   module: {
     rules: [
       {
@@ -21,11 +15,11 @@ module.exports = {
         use: ['ts-loader']
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/i,
+        test: /\.(png|jpg|jpeg|gif|svg|json)$/i,
         type: 'asset/resource'
       }
     ]
