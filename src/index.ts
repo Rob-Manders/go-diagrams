@@ -10,5 +10,3 @@ const board = {
 const ctx = createCanvas('canvas', board.dimensions)
 
 drawLines(ctx, board.dimensions, board.size)
-export { Diagram } from './diagram/Diagram'
-export { Position } from './diagram/Position'
