@@ -1,11 +1,12 @@
-import { Board } from './interfaces'
+import { Board } from '../interfaces'
+import { StoneColour } from '../types'
 
 export function drawStone(
   ctx: CanvasRenderingContext2D,
   board: Board,
   x: number,
   y: number,
-  colour: 'black' | 'white'
+  colour: StoneColour
 ): void {
   const squareSize = board.dimensions / board.size
   const halfSquareSize = squareSize / 2

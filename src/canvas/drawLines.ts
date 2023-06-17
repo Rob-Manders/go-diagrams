@@ -1,4 +1,4 @@
-import { Board } from './interfaces'
+import { Board } from '../interfaces'
 
 export function drawLines(ctx: CanvasRenderingContext2D, board: Board): void {
   const squareSize = board.dimensions / board.size
@@ -24,6 +24,7 @@ export function drawLines(ctx: CanvasRenderingContext2D, board: Board): void {
 }
 
 function drawLine(ctx: CanvasRenderingContext2D, startX: number, startY: number, endX: number, endY: number) {
+  ctx.beginPath()
   ctx.moveTo(startX, startY)
   ctx.lineTo(endX, endY)
   ctx.stroke()

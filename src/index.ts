@@ -1,11 +1,13 @@
 import './style.scss'
-import { drawLines } from './drawLines'
-import { createCanvas } from './createCanvas'
-import { getMousePosition } from './getMousePosition'
-import { drawStone } from './drawStone'
-import { Stone } from './diagram/interfaces'
-import { removeArrayElement } from './util/removeArrayElement'
-import { Board } from './interfaces'
+import { drawLines } from './canvas/drawLines'
+import { createCanvas } from './canvas/createCanvas'
+import { getMousePosition } from './util/getMousePosition'
+import { Stone } from './interfaces'
+import { addStone } from './canvas/addStone'
+import { removeStone } from './canvas/removeStone'
+import { refreshCanvas } from './canvas/refreshCanvas'
+import { createToolbar } from './createToolbar'
+import { Mode, StoneColour } from './types'
 
 const board = {
   dimensions: 700,
@@ -14,31 +16,22 @@ const board = {
 
 let stones: Stone[] = []
 
-let stoneColour: 'black' | 'white' = 'black'
-let mode: 'add' | 'remove' = 'add'
+let stoneColour: StoneColour = 'black'
+let mode: Mode = 'add'
 
 const { canvas, ctx } = createCanvas('canvas', board.dimensions)
+const { toggleColourButton, toggleModeButton } = createToolbar(stoneColour, mode)
 
 drawLines(ctx, board)
 
 canvas.addEventListener('click', event => {
   const { mouseX, mouseY } = getMousePosition(event, canvas, board)
 
-  if (mode === 'add') addStone(mouseX, mouseY, stoneColour)
-  if (mode === 'remove') removeStone(mouseX, mouseY)
+  if (mode === 'add') addStone(stones, mouseX, mouseY, stoneColour)
+  if (mode === 'remove') removeStone(stones, mouseX, mouseY)
 
-  refreshCanvas(board)
+  refreshCanvas(ctx, stones, board)
 })
-
-const toggleColourButton = document.createElement('button')
-toggleColourButton.setAttribute('id', 'toggleColourButton')
-toggleColourButton.innerText = stoneColour.toUpperCase()
-document.body.appendChild(toggleColourButton)
-
-const toggleModeButton = document.createElement('button')
-toggleModeButton.setAttribute('id', 'toggleModeButton')
-toggleModeButton.innerText = mode.toUpperCase()
-document.body.appendChild(toggleModeButton)
 
 toggleColourButton.addEventListener('click', () => {
   stoneColour = stoneColour === 'black' ? 'white' : 'black'
@@ -51,42 +44,3 @@ toggleModeButton.addEventListener('click', () => {
 
   toggleModeButton.innerText = mode.toUpperCase()
 })
-
-// Removing stones will mean refreshing canvas on each draw.
-// Must store stone positions so previous stones can be redrawn.
-
-function addStone(x: number, y: number, colour: 'black' | 'white') {
-  const existingStone = stones.find(stone => stone.x === x && stone.y === y)
-
-  console.log(existingStone)
-
-  if (!existingStone) stones.push({ x, y, colour })
-
-  console.log(stones)
-}
-
-function removeStone(x: number, y: number) {
-  const index = stones.findIndex(stone => {
-    if (stone.x === x && stone.y === y) return true
-
-    return false
-  })
-
-  if (!index) return
-
-  if (stones.length === 1) stones.pop()
-  else stones.splice(index, 1)
-
-  console.log(stones)
-}
-
-function refreshCanvas(board: Board) {
-  ctx.resetTransform()
-  ctx.clearRect(0, 0, board.dimensions, board.dimensions)
-
-  drawLines(ctx, board)
-
-  stones.forEach(stone => {
-    drawStone(ctx, board, stone.x, stone.y, stone.colour)
-  })
-}
