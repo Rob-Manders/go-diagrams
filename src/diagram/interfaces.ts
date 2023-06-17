@@ -1,5 +1,5 @@
 export interface Stone {
-  colour: 'BLACK' | 'WHITE'
+  colour: 'black' | 'white'
   x: number
   y: number
 }
