@@ -2,16 +2,17 @@ import './style.scss'
 import { drawLines } from './canvas/drawLines'
 import { createCanvas } from './canvas/createCanvas'
 import { getMousePosition } from './util/getMousePosition'
-import { Stone } from './interfaces'
+import { Board, Stone } from './interfaces'
 import { addStone } from './canvas/addStone'
 import { removeStone } from './canvas/removeStone'
 import { refreshCanvas } from './canvas/refreshCanvas'
 import { createToolbar } from './createToolbar'
 import { Mode, StoneColour } from './types'
+import { drawStarPoints } from './canvas/drawStarPoints'
 
 const board = {
   dimensions: 700,
-  size: 13
+  size: 19
 }
 
 let stones: Stone[] = []
@@ -23,6 +24,7 @@ const { canvas, ctx } = createCanvas('canvas', board.dimensions)
 const { toggleColourButton, toggleModeButton } = createToolbar(stoneColour, mode)
 
 drawLines(ctx, board)
+drawStarPoints(ctx, board)
 
 canvas.addEventListener('click', event => {
   const { mouseX, mouseY } = getMousePosition(event, canvas, board)
