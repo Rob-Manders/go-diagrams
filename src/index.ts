@@ -2,7 +2,7 @@ import './style.scss'
 import { drawLines } from './canvas/drawLines'
 import { createCanvas } from './canvas/createCanvas'
 import { getMousePosition } from './util/getMousePosition'
-import { Diagram } from './interfaces'
+import { IDiagram } from './interfaces'
 import { addStone } from './canvas/addStone'
 import { removeStone } from './canvas/removeStone'
 import { refreshCanvas } from './canvas/refreshCanvas'
@@ -10,7 +10,7 @@ import { createToolbar } from './createToolbar'
 import { Mode, StoneColour } from './types'
 import { drawStarPoints } from './canvas/drawStarPoints'
 
-let diagram: Diagram = {
+let diagram: IDiagram = {
   board: {
     dimensions: 700,
     size: 13

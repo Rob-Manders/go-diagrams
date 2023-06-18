@@ -1,4 +1,4 @@
-import { Board } from '../interfaces'
+import { IBoard } from '../interfaces'
 
 interface Coord {
   x: number
@@ -33,7 +33,7 @@ const starPointPositions: { [key: string]: Coord[] } = {
   ]
 }
 
-export function drawStarPoints(ctx: CanvasRenderingContext2D, board: Board): void {
+export function drawStarPoints(ctx: CanvasRenderingContext2D, board: IBoard): void {
   const boardDimensions = `${board.size.toString()}x${board.size.toString()}`
 
   if (!boardDimensions) return

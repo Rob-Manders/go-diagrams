@@ -1,9 +1,9 @@
-import { Board } from '../interfaces'
+import { IBoard } from '../interfaces'
 import { StoneColour } from '../types'
 
 export function drawStone(
   ctx: CanvasRenderingContext2D,
-  board: Board,
+  board: IBoard,
   x: number,
   y: number,
   colour: StoneColour

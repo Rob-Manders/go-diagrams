@@ -1,6 +1,6 @@
-import { Stone } from '../interfaces'
+import { IStone } from '../interfaces'
 
-export function removeStone(stones: Stone[], x: number, y: number) {
+export function removeStone(stones: IStone[], x: number, y: number) {
   const index = stones.findIndex(stone => stone.x === x && stone.y === y)
 
   if (index < 0) return

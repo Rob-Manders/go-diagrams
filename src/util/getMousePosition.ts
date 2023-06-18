@@ -1,9 +1,9 @@
-import { Board } from '../interfaces'
+import { IBoard } from '../interfaces'
 
 export function getMousePosition(
   event: MouseEvent,
   canvas: HTMLCanvasElement,
-  board: Board
+  board: IBoard
 ): { mouseX: number; mouseY: number } {
   let rect = canvas.getBoundingClientRect()
 

@@ -1,19 +1,19 @@
-export interface Board {
+export interface IBoard {
   dimensions: number
   size: number
 }
 
-export interface Stone {
+export interface IStone {
   colour: 'black' | 'white'
   x: number
   y: number
 }
 
-export interface Position {
-  stones: Stone[]
+export interface IPosition {
+  stones: IStone[]
 }
 
-export interface Diagram {
-  board: Board
-  positions: Position[]
+export interface IDiagram {
+  board: IBoard
+  positions: IPosition[]
 }
