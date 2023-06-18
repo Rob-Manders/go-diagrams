@@ -15,5 +15,5 @@ export interface IPosition {
 
 export interface IDiagram {
   board: IBoard
-  positions: IPosition[]
+  positions?: IPosition[]
 }
