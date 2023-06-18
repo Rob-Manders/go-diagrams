@@ -1,9 +1,9 @@
 import { IBoard } from '../interfaces'
 
-export function drawLines(ctx: CanvasRenderingContext2D, board: IBoard): void {
-  const squareSize = board.dimensions / board.size
+export function drawLines(ctx: CanvasRenderingContext2D, canvasDimensions: number, board: IBoard): void {
+  const squareSize = canvasDimensions / board.size
   const startPos = squareSize / 2
-  const endPos = board.dimensions - squareSize / 2
+  const endPos = canvasDimensions - squareSize / 2
 
   let x = startPos
   let y = startPos

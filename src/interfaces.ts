@@ -1,5 +1,5 @@
 export interface IBoard {
-  dimensions: number
+  dimensions?: number
   size: number
 }
 

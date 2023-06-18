@@ -33,7 +33,7 @@ const starPointPositions: { [key: string]: Coord[] } = {
   ]
 }
 
-export function drawStarPoints(ctx: CanvasRenderingContext2D, board: IBoard): void {
+export function drawStarPoints(ctx: CanvasRenderingContext2D, canvasDimensions: number, board: IBoard): void {
   const boardDimensions = `${board.size.toString()}x${board.size.toString()}`
 
   if (!boardDimensions) return
@@ -41,7 +41,7 @@ export function drawStarPoints(ctx: CanvasRenderingContext2D, board: IBoard): vo
   const coords = starPointPositions[boardDimensions]
 
   coords.forEach(coord => {
-    const squareSize = board.dimensions / board.size
+    const squareSize = canvasDimensions / board.size
     const halfSquareSize = squareSize / 2
 
     const xPos = halfSquareSize + squareSize * coord.x - squareSize

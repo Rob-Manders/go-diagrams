@@ -1,29 +1,26 @@
 import './style.scss'
-import { drawLines } from './canvas/drawLines'
 import { createCanvas } from './canvas/createCanvas'
 import { getMousePosition } from './util/getMousePosition'
 import { IDiagram } from './interfaces'
-import { addStone } from './canvas/addStone'
-import { removeStone } from './canvas/removeStone'
-import { refreshCanvas } from './canvas/refreshCanvas'
 import { createToolbar } from './createToolbar'
 import { Mode, StoneColour } from './types'
-import { drawStarPoints } from './canvas/drawStarPoints'
+import { DiagramEditor } from './DiagramEditor'
 
 let diagram: IDiagram = {
   board: {
-    dimensions: 700,
     size: 13
   },
   positions: [{ stones: [] }]
 }
 
-let currentPosition = 0
+const canvasDimensions = 700
+const canvas = createCanvas('canvas', canvasDimensions)
+
+const diagramEditor = new DiagramEditor(canvas, canvasDimensions, diagram)
 
 let stoneColour: StoneColour = 'black'
 let mode: Mode = 'add'
 
-const { canvas, ctx } = createCanvas('canvas', diagram.board.dimensions)
 const {
   toggleColourButton,
   toggleModeButton,
@@ -33,22 +30,22 @@ const {
   deletePositionButton
 } = createToolbar(stoneColour, mode)
 
-drawLines(ctx, diagram.board)
-drawStarPoints(ctx, diagram.board)
+diagramEditor.init()
 
 canvas.addEventListener('click', event => {
-  const { mouseX, mouseY } = getMousePosition(event, canvas, diagram.board)
+  const { mouseX, mouseY } = getMousePosition(event, canvas, canvasDimensions, diagram.board)
 
-  if (mode === 'add') addStone(diagram.positions[currentPosition].stones, mouseX, mouseY, stoneColour)
-  if (mode === 'remove') removeStone(diagram.positions[currentPosition].stones, mouseX, mouseY)
-
-  refreshCanvas(ctx, diagram.positions[currentPosition].stones, diagram.board)
+  if (mode === 'add') diagramEditor.addStone(mouseX, mouseY)
+  if (mode === 'remove') diagramEditor.removeStone(mouseX, mouseY)
 })
 
 toggleColourButton.addEventListener('click', () => {
-  stoneColour = stoneColour === 'black' ? 'white' : 'black'
+  const stoneColour = diagramEditor.getStoneColour()
 
-  toggleColourButton.innerText = stoneColour.toUpperCase()
+  if (stoneColour === 'black') diagramEditor.setStoneColour('white')
+  else diagramEditor.setStoneColour('black')
+
+  toggleColourButton.innerText = diagramEditor.getStoneColour().toUpperCase()
 })
 
 toggleModeButton.addEventListener('click', () => {
@@ -57,41 +54,8 @@ toggleModeButton.addEventListener('click', () => {
   toggleModeButton.innerText = mode.toUpperCase()
 })
 
-addPositionButton.addEventListener('click', () => {
-  diagram.positions.push({ stones: [] })
-  currentPosition++
-  refreshCanvas(ctx, diagram.positions[currentPosition].stones, diagram.board)
-})
+addPositionButton.addEventListener('click', () => diagramEditor.addPosition())
+deletePositionButton.addEventListener('click', () => diagramEditor.deletePosition())
 
-deletePositionButton.addEventListener('click', () => {
-  if (currentPosition === 0 && diagram.positions.length === 1) {
-    diagram.positions[0] = {
-      stones: []
-    }
-
-    refreshCanvas(ctx, diagram.positions[currentPosition].stones, diagram.board)
-
-    return
-  }
-
-  diagram.positions.splice(currentPosition, 1)
-
-  if (currentPosition === 0) currentPosition = 0
-  else currentPosition--
-
-  refreshCanvas(ctx, diagram.positions[currentPosition].stones, diagram.board)
-})
-
-previousPositionButton.addEventListener('click', () => {
-  if (currentPosition === 0) return
-
-  currentPosition--
-  refreshCanvas(ctx, diagram.positions[currentPosition].stones, diagram.board)
-})
-
-nextPositionButton.addEventListener('click', () => {
-  if (currentPosition === diagram.positions.length - 1) return
-
-  currentPosition++
-  refreshCanvas(ctx, diagram.positions[currentPosition].stones, diagram.board)
-})
+nextPositionButton.addEventListener('click', () => diagramEditor.nextPosition())
+previousPositionButton.addEventListener('click', () => diagramEditor.previousPosition())

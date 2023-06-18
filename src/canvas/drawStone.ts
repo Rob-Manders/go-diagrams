@@ -3,12 +3,13 @@ import { StoneColour } from '../types'
 
 export function drawStone(
   ctx: CanvasRenderingContext2D,
+  canvasDimensions: number,
   board: IBoard,
   x: number,
   y: number,
   colour: StoneColour
 ): void {
-  const squareSize = board.dimensions / board.size
+  const squareSize = canvasDimensions / board.size
   const halfSquareSize = squareSize / 2
 
   const xPos = halfSquareSize + squareSize * x - squareSize

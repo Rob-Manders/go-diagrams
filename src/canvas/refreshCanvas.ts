@@ -3,13 +3,18 @@ import { drawStone } from './drawStone'
 import { IBoard, IStone } from '../interfaces'
 import { drawStarPoints } from './drawStarPoints'
 
-export function refreshCanvas(ctx: CanvasRenderingContext2D, stones: IStone[], board: IBoard) {
-  ctx.clearRect(0, 0, board.dimensions, board.dimensions)
+export function refreshCanvas(
+  ctx: CanvasRenderingContext2D,
+  canvasDimensions: number,
+  stones: IStone[],
+  board: IBoard
+) {
+  ctx.clearRect(0, 0, canvasDimensions, canvasDimensions)
 
-  drawLines(ctx, board)
-  drawStarPoints(ctx, board)
+  drawLines(ctx, canvasDimensions, board)
+  drawStarPoints(ctx, canvasDimensions, board)
 
   stones.forEach(stone => {
-    drawStone(ctx, board, stone.x, stone.y, stone.colour)
+    drawStone(ctx, canvasDimensions, board, stone.x, stone.y, stone.colour)
   })
 }
