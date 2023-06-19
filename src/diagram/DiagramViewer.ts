@@ -1,7 +1,7 @@
-import { IBoard, IDiagram, IPosition } from './interfaces'
-import { drawLines } from './canvas/drawLines'
-import { drawStarPoints } from './canvas/drawStarPoints'
-import { drawStone } from './canvas/drawStone'
+import { IBoard, IDiagram, IPosition } from '../interfaces'
+import { drawLines } from '../canvas/drawLines'
+import { drawStarPoints } from '../canvas/drawStarPoints'
+import { drawStone } from '../canvas/drawStone'
 
 export class DiagramViewer implements IDiagram {
   private initilised: boolean = false
@@ -47,6 +47,10 @@ export class DiagramViewer implements IDiagram {
       board: this.board,
       positions: this.positions
     }
+  }
+
+  getCurrentPositionIndex(): number {
+    return this.currentPosition
   }
 
   getCurrentPosition(): IPosition {
