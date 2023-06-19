@@ -19,9 +19,17 @@ export function drawStone(
   const opacity = ghost ? '0.5' : '1'
   let fillColour: string
 
-  if (colour === 'black') fillColour = `rgba(0, 0, 0, ${opacity})`
-  if (colour === 'white') fillColour = `rgba(255, 255, 255, ${opacity})`
-  if (colour === 'red') fillColour = `rgba(255, 0, 0, ${opacity})`
+  switch (colour) {
+    case StoneColour.BLACK:
+      fillColour = `rgba(0, 0, 0, ${opacity})`
+      break
+    case StoneColour.WHITE:
+      fillColour = `rgba(255, 255, 255, ${opacity})`
+      break
+    case StoneColour.RED:
+      fillColour = `rgba(180, 0, 0, ${opacity})`
+      break
+  }
 
   ctx.beginPath()
   ctx.arc(xPos, yPos, halfSquareSize, 0, 2 * Math.PI)

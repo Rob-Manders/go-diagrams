@@ -18,7 +18,7 @@ const canvas = createCanvas('canvas', canvasDimensions)
 
 const diagramEditor = new DiagramEditor(canvas, canvasDimensions, diagram)
 
-let stoneColour: StoneColour = 'black'
+let stoneColour: StoneColour = StoneColour.BLACK
 let mode: Mode = 'add'
 
 const {
@@ -52,8 +52,8 @@ canvas.addEventListener('click', event => {
 toggleColourButton.addEventListener('click', () => {
   const stoneColour = diagramEditor.getStoneColour()
 
-  if (stoneColour === 'black') diagramEditor.setStoneColour('white')
-  else diagramEditor.setStoneColour('black')
+  if (stoneColour === StoneColour.BLACK) diagramEditor.setStoneColour(StoneColour.WHITE)
+  else diagramEditor.setStoneColour(StoneColour.BLACK)
 
   toggleColourButton.innerText = diagramEditor.getStoneColour().toUpperCase()
 })

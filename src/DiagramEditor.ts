@@ -11,7 +11,7 @@ export class DiagramEditor extends DiagramViewer {
   protected defaultPosition: IPosition = { stones: [] }
   protected currentPosition: number = 0
 
-  private stoneColour: StoneColour = 'black'
+  private stoneColour: StoneColour = StoneColour.BLACK
 
   board: IBoard
   positions: IPosition[]
@@ -26,13 +26,13 @@ export class DiagramEditor extends DiagramViewer {
     this.positions = diagram.positions && [this.defaultPosition]
   }
 
-  drawGhost(x: number, y: number, red?: boolean): void {
+  drawGhost(x: number, y: number, removeMode?: boolean): void {
     const existingStone = this.positions[this.currentPosition].stones.find(stone => stone.x === x && stone.y === y)
 
-    if (!existingStone) {
+    if (!existingStone || removeMode) {
       this.refreshCanvas()
 
-      const colour = red ? 'red' : this.stoneColour
+      const colour = removeMode ? StoneColour.RED : this.stoneColour
 
       drawStone(this.ctx, this.canvasDimensions, this.board, x, y, colour, true)
     } else {
