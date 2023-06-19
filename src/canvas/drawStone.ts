@@ -7,7 +7,8 @@ export function drawStone(
   board: IBoard,
   x: number,
   y: number,
-  colour: StoneColour
+  colour: StoneColour,
+  ghost?: boolean
 ): void {
   const squareSize = canvasDimensions / board.size
   const halfSquareSize = squareSize / 2
@@ -15,7 +16,12 @@ export function drawStone(
   const xPos = halfSquareSize + squareSize * x - squareSize
   const yPos = halfSquareSize + squareSize * y - squareSize
 
-  const fillColour = colour === 'black' ? '#000000' : '#ffffff'
+  const opacity = ghost ? '0.5' : '1'
+  let fillColour: string
+
+  if (colour === 'black') fillColour = `rgba(0, 0, 0, ${opacity})`
+  if (colour === 'white') fillColour = `rgba(255, 255, 255, ${opacity})`
+  if (colour === 'red') fillColour = `rgba(255, 0, 0, ${opacity})`
 
   ctx.beginPath()
   ctx.arc(xPos, yPos, halfSquareSize, 0, 2 * Math.PI)

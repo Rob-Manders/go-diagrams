@@ -1,10 +1,12 @@
+import { StoneColour } from './types'
+
 export interface IBoard {
   dimensions?: number
   size: number
 }
 
 export interface IStone {
-  colour: 'black' | 'white'
+  colour: StoneColour
   x: number
   y: number
 }

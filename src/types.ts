@@ -1,2 +1,2 @@
-export type StoneColour = 'black' | 'white'
+export type StoneColour = 'black' | 'white' | 'red'
 export type Mode = 'add' | 'remove'

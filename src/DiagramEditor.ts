@@ -1,4 +1,5 @@
 import { DiagramViewer } from './DiagramViewer'
+import { drawStone } from './canvas/drawStone'
 import { IBoard, IDiagram, IPosition } from './interfaces'
 import { StoneColour } from './types'
 
@@ -23,6 +24,20 @@ export class DiagramEditor extends DiagramViewer {
     this.ctx = this.canvas.getContext('2d')
     this.board = diagram.board
     this.positions = diagram.positions && [this.defaultPosition]
+  }
+
+  drawGhost(x: number, y: number, red?: boolean): void {
+    const existingStone = this.positions[this.currentPosition].stones.find(stone => stone.x === x && stone.y === y)
+
+    if (!existingStone) {
+      this.refreshCanvas()
+
+      const colour = red ? 'red' : this.stoneColour
+
+      drawStone(this.ctx, this.canvasDimensions, this.board, x, y, colour, true)
+    } else {
+      this.refreshCanvas()
+    }
   }
 
   addPosition(): void {

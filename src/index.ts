@@ -32,6 +32,16 @@ const {
 
 diagramEditor.init()
 
+canvas.addEventListener('mousemove', event => {
+  const { mouseX, mouseY } = getMousePosition(event, canvas, canvasDimensions, diagram.board)
+
+  const deleteMode = mode === 'remove' ? true : false
+
+  diagramEditor.drawGhost(mouseX, mouseY, deleteMode)
+})
+
+canvas.addEventListener('mouseleave', () => diagramEditor.refreshCanvas())
+
 canvas.addEventListener('click', event => {
   const { mouseX, mouseY } = getMousePosition(event, canvas, canvasDimensions, diagram.board)
 

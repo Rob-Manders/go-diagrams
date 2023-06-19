@@ -24,7 +24,7 @@ export class DiagramViewer implements IDiagram {
     this.positions = diagram.positions && [this.defaultPosition]
   }
 
-  protected refreshCanvas() {
+  refreshCanvas() {
     this.ctx.clearRect(0, 0, this.canvasDimensions, this.canvasDimensions)
 
     drawLines(this.ctx, this.canvasDimensions, this.board)
