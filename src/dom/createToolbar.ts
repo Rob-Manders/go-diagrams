@@ -1,4 +1,4 @@
-import { Mode, StoneColour } from './types'
+import { Mode, StoneColour } from '../types'
 
 export function createToolbar(stoneColour: StoneColour, mode: Mode) {
   const buttonContainer = document.createElement('div')

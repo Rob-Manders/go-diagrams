@@ -2,9 +2,9 @@ import './style.scss'
 import { createCanvas } from './canvas/createCanvas'
 import { getMousePosition } from './util/getMousePosition'
 import { IDiagram } from './interfaces'
-import { createToolbar } from './createToolbar'
+import { createToolbar } from './dom/createToolbar'
 import { Mode, StoneColour } from './types'
-import { DiagramEditor } from './DiagramEditor'
+import { DiagramEditor } from './diagram/DiagramEditor'
 
 let diagram: IDiagram = {
   board: {

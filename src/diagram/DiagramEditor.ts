@@ -1,7 +1,7 @@
 import { DiagramViewer } from './DiagramViewer'
-import { drawStone } from './canvas/drawStone'
-import { IBoard, IDiagram, IPosition } from './interfaces'
-import { StoneColour } from './types'
+import { drawStone } from '../canvas/drawStone'
+import { IBoard, IDiagram, IPosition } from '../interfaces'
+import { StoneColour } from '../types'
 
 export class DiagramEditor extends DiagramViewer {
   protected canvas: HTMLCanvasElement
