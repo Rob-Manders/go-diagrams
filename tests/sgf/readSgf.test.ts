@@ -2,7 +2,7 @@ import { assert, expect, test } from 'vitest'
 import { readSgf } from '../../src/modules/sgf'
 import { Game } from '../../src/interfaces'
 
-const sgfInput = `
+const sgfMultilineInput = `
 (;FF[4]
 CA[UTF-8]
 GM[1]
@@ -28,6 +28,8 @@ AB[jj][dd][pp][pd][dp]
 )))))
 `
 
+const sgfSingleLineInput = '(;FF[4]CA[UTF-8]GM[1]DT[2024-04-22]PC[OGS: https://online-go.com/game/63622896]GN[Friendly Match]PB[Rob Manders]PW[千盛云汉]BR[17k]WR[12k]TM[600]OT[5x30 byo-yomi]RE[W+60.5]SZ[19]KM[0.5]RU[Japanese]HA[5]AB[jj][dd][pp][pd][dp];W[cn](;B[fq](;W[dj](;B[cf](;W[nq])))))'
+
 const gameOutput: Game = {
   date: '2024-04-22',
   place: 'OGS: https://online-go.com/game/63622896',
@@ -38,10 +40,10 @@ const gameOutput: Game = {
   whiteRank: '12k',
   timeLimit: 600,
   overtime: 'TM[600]OT[',
-  result: { winner: 'white', points: 60.5 },
+  result: { winner: 'White', points: 60.5 },
   boardSize: 19,
   komi: 0.5,
-  rules: 'japanese',
+  rules: 'Japanese',
   handicap: 5,
   addBlack: [
     { x: 9, y: 9 },
@@ -59,8 +61,15 @@ const gameOutput: Game = {
   ]
 }
 
-test('Outputs game from SGF string', () => {
-  const actualGame = readSgf(sgfInput)
+test('Outputs game from SGF multiline string', () => {
+  const actualGame = readSgf(sgfMultilineInput)
+  const expectedGame = gameOutput
+
+  expect(actualGame).toStrictEqual(expectedGame)
+})
+
+test('Outputs game from SGF single line string', () => {
+  const actualGame = readSgf(sgfSingleLineInput)
   const expectedGame = gameOutput
 
   expect(actualGame).toStrictEqual(expectedGame)
