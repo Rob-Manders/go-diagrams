@@ -13,5 +13,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vitest": "^1.5.2"
+  },
+  "dependencies": {
+    "@sabaki/sgf": "^3.4.7"
   }
 }

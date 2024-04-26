@@ -1,5 +1,10 @@
 import { MoveTree, StoneColour } from './types'
 
+export interface Coord {
+  x: number,
+  y: number
+}
+
 export interface IBoard {
   dimensions?: number
   size: number
