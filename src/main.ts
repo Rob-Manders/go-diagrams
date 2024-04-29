@@ -1,20 +1,17 @@
 import './assets/style.css'
 
 import { readSgf } from './modules/sgf'
-import { createCanvas, drawLines, drawStarPoints } from './modules/canvas'
+import { Goban } from './modules/goban'
+import { createCanvas } from './util/createCanvas'
 
 const board =  {
     size: 13
   }
 
 const canvasDimensions = 700
-const canvas = createCanvas('canvas', canvasDimensions)
-const canvasContext = canvas.getContext('2d')!
+const canvas = (createCanvas('canvas', canvasDimensions))
 
-canvasContext.clearRect(0, 0, canvasDimensions, canvasDimensions)
-
-drawLines(canvasContext, canvasDimensions, board)
-drawStarPoints(canvasContext, canvasDimensions, board)
+const goban = new Goban(canvas, board)
 
 const sgfMultilineInput = `
 (;FF[4]

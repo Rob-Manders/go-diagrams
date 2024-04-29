@@ -1,5 +1,3 @@
-import { Move } from "./interfaces"
-
 export enum StoneColour {
   BLACK = 'black',
   WHITE = 'white',
@@ -7,4 +5,3 @@ export enum StoneColour {
 }
 
 export type Mode = 'add' | 'remove'
-export type MoveTree = Move[][]

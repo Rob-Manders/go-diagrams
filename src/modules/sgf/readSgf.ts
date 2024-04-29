@@ -1,11 +1,6 @@
-import { Coord } from "../../interfaces"
+import { Coord, Game } from "../../interfaces"
 
 type Data = { [key: string]: string }
-
-const COLOUR_LABELS: Data = {
-  B: 'black',
-  W: 'white'
-}
 
 const DATA_LABELS: Data = {
   PB: 'playerBlack',
@@ -24,12 +19,10 @@ const DATA_LABELS: Data = {
   RE: 'result'
 }
 
-export function readSgf(sgf: string) {
+export function readSgf(sgf: string): Game {
   const parts = sgf.replace(/(\r\n|\n|\r)/gm, '')
                    .split(';')
                    .map(part => part.trim())
-
-  console.log('Parts:', parts)  // TODO: Remove console log.
 
   let data = {}
 
@@ -57,17 +50,31 @@ export function readSgf(sgf: string) {
   })
 
   data = {
-    moves: extractMoveTree(sgf),
+    moves: getMoves(parts),
     ...data
   }
 
-  console.log(data) // TODO: Remove console log.
+  console.log(data)
 
-  return data
+  return data as Game
 }
 
-function extractMoveTree(sgf: string) {
+function getMoves(parts: string[]) {
+  const moveParts: string[] = []
 
+  parts.forEach(part => {
+    const slice = part.slice(0, 2)
+    if (slice == 'B[' ||slice === 'W[') moveParts.push(part)
+  })
+
+  return moveParts.map(part => {
+    const chunks = getChunks(part)
+
+    return {
+      colour: chunks[0] === 'B' ? 'black' : 'white',
+      coords: getCoords(chunks[1])
+    }
+  })
 }
 
 function getChunks(part: string): string[] {
@@ -81,6 +88,25 @@ function getChunks(part: string): string[] {
   })
 
   return chunks
+}
+
+function getAddStones(chunks: string[], property: string): Coord[] {
+  let coords: Coord[] = []
+
+  const index = chunks.indexOf(property)
+
+  let i = index + 1
+  while (i < chunks.length) {
+    const value = chunks[i]
+
+    if (!isPoint(value)) break
+
+    coords.push(getCoords(value))
+
+    i += 1
+  }
+
+  return coords
 }
 
 function getData(chunks: string[]): Data {
@@ -107,26 +133,7 @@ function getData(chunks: string[]): Data {
   return data
 }
 
-function getAddStones(chunks: string[], property: string): Coord[] {
-  let coords: Coord[] = []
-
-  const index = chunks.indexOf(property)
-
-  let i = index + 1
-  while (i < chunks.length) {
-    const value = chunks[i]
-
-    if (!isPoint(value)) break
-
-    coords.push(getCoord(value))
-
-    i += 1
-  }
-
-  return coords
-}
-
-function getCoord(value: string): Coord {
+function getCoords(value: string): Coord {
   const x = value.charCodeAt(0) - 97
   const y = value.charCodeAt(1) - 97
 

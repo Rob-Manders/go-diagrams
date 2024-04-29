@@ -1,4 +1,4 @@
-import { MoveTree, StoneColour } from './types'
+import { StoneColour } from './types'
 
 export interface Coord {
   x: number,
@@ -29,6 +29,13 @@ export interface Move {
   colour: string,
   x: number,
   y: number,
+}
+
+export interface Move{
+  colour: string,
+  coord: Coord[],
+  comment?: string
+  branches?: Move[][]
 }
 
 export interface Game {
