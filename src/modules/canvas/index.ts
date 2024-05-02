@@ -1,7 +1,0 @@
-export { addStone } from './addStone'
-export { createCanvas } from './createCanvas'
-export { drawLines } from './drawLines'
-export { drawStarPoints } from './drawStarPoints'
-export { drawStone } from './drawStone'
-export { refreshCanvas } from './refreshCanvas'
-export { removeStone } from './removeStone'

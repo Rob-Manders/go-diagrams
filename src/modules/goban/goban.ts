@@ -1,4 +1,4 @@
-import { Diagram } from "../../interfaces"
+import { Position } from "../../interfaces"
 import { Stone, Symbol } from "../../types"
 import { starPointPositions } from "./data"
 
@@ -22,7 +22,7 @@ export class Goban {
     this.refresh()
   }
 
-  public refresh(diagram: Diagram | null = null) {
+  public refresh(diagram: Position | null = null) {
     this.context.clearRect(0, 0, this.dimensions, this.dimensions)
 
     this.drawLines()

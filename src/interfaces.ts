@@ -40,7 +40,7 @@ export interface Cell {
   label?: Uint8Array,
 }
 
-export interface Diagram {
+export interface Position {
   name: string
   position: Cell[][]
   comment?: string
