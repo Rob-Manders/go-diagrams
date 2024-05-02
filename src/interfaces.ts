@@ -1,37 +1,11 @@
-import { StoneColour } from './types'
+import { Stone, Symbol } from './types'
 
 export interface Coord {
   x: number,
   y: number
 }
 
-export interface IBoard {
-  dimensions?: number
-  size: number
-}
-
-export interface IStone {
-  colour: StoneColour
-  x: number
-  y: number
-}
-
-export interface IPosition {
-  stones: IStone[]
-}
-
-export interface IDiagram {
-  board: IBoard
-  positions?: IPosition[]
-}
-
 export interface Move {
-  colour: string,
-  x: number,
-  y: number,
-}
-
-export interface Move{
   colour: string,
   coord: Coord[],
   comment?: string
@@ -57,4 +31,17 @@ export interface Game {
   addBlack?: { x: number, y: number }[],
   addWhite?: { x: number, y: number }[],
   moves: Move[]
+}
+
+export interface Cell {
+  stone: Stone,
+  ghost: boolean,
+  symbol?: Symbol,
+  label?: Uint8Array,
+}
+
+export interface Diagram {
+  name: string
+  position: Cell[][]
+  comment?: string
 }

@@ -3,15 +3,12 @@ import './assets/style.css'
 import { readSgf } from './modules/sgf'
 import { Goban } from './modules/goban'
 import { createCanvas } from './util/createCanvas'
-
-const board =  {
-    size: 13
-  }
+import { Stone } from './types'
 
 const canvasDimensions = 700
 const canvas = (createCanvas('canvas', canvasDimensions))
 
-const goban = new Goban(canvas, board)
+const goban = new Goban(canvas, 9)
 
 const sgfMultilineInput = `
 (;FF[4]
@@ -40,3 +37,35 @@ AB[jj][dd][pp][pd][dp]
 `
 
 readSgf(sgfMultilineInput)
+
+const b = {
+  stone: Stone.BLACK,
+  ghost: false
+}
+
+const w = {
+  stone: Stone.WHITE,
+  ghost: false
+}
+
+const x = {
+  stone: Stone.NONE,
+  ghost: false
+}
+
+const diagram = {
+  name: 'Test Diagram',
+  position: [
+    [x, x, x, x, x, x, x, x, x],
+    [x, b, x, x, x, x, x, x, x],
+    [x, x, b, b, x, x, x, x, x],
+    [x, x, x, x, x, x, x, x, x],
+    [x, x, x, x, x, x, x, x, x],
+    [x, x, x, x, x, x, w, x, x],
+    [x, x, x, x, w, x, x, x, x],
+    [x, x, x, x, x, x, x, x, x],
+    [x, x, x, x, x, x, x, x, x],
+  ]
+}
+
+goban.refresh(diagram)

@@ -54,8 +54,6 @@ export function readSgf(sgf: string): Game {
     ...data
   }
 
-  console.log(data)
-
   return data as Game
 }
 
