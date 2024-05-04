@@ -1,5 +1,11 @@
 import { Stone, Symbol } from './types'
 
+export interface Colour {
+  r: number,
+  b: number,
+  g: number
+}
+
 export interface Coord {
   x: number,
   y: number

@@ -1,23 +1,24 @@
-import { Position } from "../../interfaces"
+import { Colour, Position } from "../../interfaces"
 import { Stone, Symbol } from "../../types"
 import { starPointPositions } from "./data"
+import { drawCircle, drawSquare, drawTriangle } from "./symbols"
 
 export class Goban {
   private canvas: HTMLCanvasElement
   private context: CanvasRenderingContext2D
   private size: number
-  private bgColour: string
+  private bgColour: Colour
   private dimensions: number
-  private squareSize: number
+  private cellSize: number
 
-  constructor(canvas: HTMLCanvasElement, size: number, bgColour: string = 'rgb(174, 132, 78)') {
+  constructor(canvas: HTMLCanvasElement, size: number, bgColour: Colour = { r: 174, g: 132, b: 78 }) {
     this.canvas = canvas
     this.size = size
     this.bgColour = bgColour
     this.dimensions = canvas.width
     this.context = this.canvas.getContext('2d')!
 
-    this.squareSize = this.dimensions / this.size
+    this.cellSize = this.dimensions / this.size
 
     this.refresh()
   }
@@ -32,24 +33,54 @@ export class Goban {
 
     diagram.position.forEach((row, y) => {
       row.forEach((cell, x) => {
-        const ghost = cell.ghost
+        const { stone, symbol, label, ghost } = cell
 
         const xPos = this.pos(x + 1)
         const yPos = this.pos(y + 1)
 
-        if (cell.stone != 'none') this.drawStone(xPos, yPos, cell.stone, ghost)
+        if (stone != 'none') this.drawStone(xPos, yPos, cell.stone, ghost)
 
-        if (cell.symbol) this.drawSymbol(cell.symbol, xPos, yPos, ghost)
-        if (cell.label) this.drawLabel(cell.label, xPos, yPos, ghost)
+        if (symbol) this.drawSymbol(stone, symbol, xPos, yPos, ghost)
+        if (label) this.drawLabel(stone, label, xPos, yPos, ghost)
       })
     })
   }
 
-  private drawLabel(label: Uint8Array, xPos: number, yPos: number, ghost: boolean) {
-    return
+  public mousePosition(event: MouseEvent): { mouseX: number; mouseY: number } {
+    let rect = this.canvas.getBoundingClientRect()
+
+    return {
+      mouseX: Math.floor((event.clientX - rect.left) / (this.dimensions / this.size)) + 1,
+      mouseY: Math.floor((event.clientY - rect.top) / (this.dimensions / this.size)) + 1
+    }
   }
 
-  private drawSymbol(symbol: Symbol, xPos: number, yPos: number, ghost: boolean) {
+  private drawSymbol(stone: Stone, symbol: Symbol, xPos: number, yPos: number, ghost: boolean) {
+    const { r, g, b } = this.bgColour
+    const opacity = ghost ? '0.5' : '1'
+
+    if (stone === Stone.NONE) {
+      this.context.beginPath()
+      this.context.arc(xPos, yPos, (this.cellSize * 0.8) / 2, 0, 2 * Math.PI)
+      this.context.fillStyle = `rgba(${r}, ${g}, ${b}, 0.5`
+      this.context.fill()
+    }
+
+    const symbolColour = stone === Stone.BLACK ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`
+
+    switch (symbol) {
+      case Symbol.CIRCLE:
+        drawCircle(this.context, xPos, yPos, (this.cellSize * 0.6) / 2, symbolColour)
+        break
+      case Symbol.SQUARE:
+        drawSquare(this.context, xPos, yPos, this.cellSize * 0.5, symbolColour)
+        break
+      case Symbol.TRIANGLE:
+        drawTriangle(this.context, xPos, yPos, this.cellSize * 0.65, symbolColour)
+    }
+  }
+  
+  private drawLabel(stone: Stone, label: Uint8Array, xPos: number, yPos: number, ghost: boolean) {
     return
   }
 
@@ -62,7 +93,7 @@ export class Goban {
     const opacity = ghost ? '0.5' : '1'
     
     this.context.beginPath()
-    this.context.arc(xPos, yPos, (this.squareSize / 2), 0, 2 * Math.PI)
+    this.context.arc(xPos, yPos, (this.cellSize / 2), 0, 2 * Math.PI)
   
     switch (colour) {
       case Stone.BLACK:
@@ -87,22 +118,22 @@ export class Goban {
     const coords = starPointPositions[boardDimensions]
   
     coords.forEach(coord => {
-      const squareSize = this.dimensions / this.size
-      const halfSquareSize = squareSize / 2
+      const cellSize = this.dimensions / this.size
+      const halfcellSize = cellSize / 2
   
       const xPos = this.pos(coord.x)
       const yPos = this.pos(coord.y)
   
       this.context.beginPath()
-      this.context.arc(xPos, yPos, halfSquareSize / 5, 0, 2 * Math.PI)
+      this.context.arc(xPos, yPos, halfcellSize / 5, 0, 2 * Math.PI)
       this.context.fillStyle = '#000000'
       this.context.fill()
     })
   }
 
   private drawLines(): void {
-    const startPos = this.squareSize / 2
-    const endPos = this.dimensions - this.squareSize / 2
+    const startPos = this.cellSize / 2
+    const endPos = this.dimensions - this.cellSize / 2
   
     let x = startPos
     let y = startPos
@@ -110,14 +141,14 @@ export class Goban {
     this.drawLine(startPos, y, endPos, y)
   
     for (let i = 1; i < this.size; i++) {
-      y += this.squareSize
+      y += this.cellSize
       this.drawLine(startPos, y, endPos, y)
     }
   
     this.drawLine(x, startPos, x, endPos)
   
     for (let i = 1; i < this.size; i++) {
-      x += this.squareSize
+      x += this.cellSize
       this.drawLine(x, startPos, x, endPos)
     }
   }
@@ -126,10 +157,11 @@ export class Goban {
     this.context.beginPath()
     this.context.moveTo(startX, startY)
     this.context.lineTo(endX, endY)
+    this.context.lineWidth = 1.5
     this.context.stroke()
   }
 
   private pos(coord: number) {
-    return (this.squareSize / 2) + this.squareSize * coord - this.squareSize
+    return (this.cellSize / 2) + this.cellSize * coord - this.cellSize
   }
 }

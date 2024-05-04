@@ -3,7 +3,7 @@ import './assets/style.css'
 import { readSgf } from './modules/sgf'
 import { Goban } from './modules/goban'
 import { createCanvas } from './util/createCanvas'
-import { Stone } from './types'
+import { Stone, Symbol } from './types'
 
 const canvasDimensions = 700
 const canvas = (createCanvas('canvas', canvasDimensions))
@@ -53,6 +53,24 @@ const x = {
   ghost: false
 }
 
+const c = {
+  stone: Stone.NONE,
+  ghost: false,
+  symbol: Symbol.CIRCLE
+}
+
+const s = {
+  stone: Stone.NONE,
+  ghost: false,
+  symbol: Symbol.SQUARE
+}
+
+const t = {
+  stone: Stone.BLACK,
+  ghost: false,
+  symbol: Symbol.TRIANGLE
+}
+
 const diagram = {
   name: 'Test Diagram',
   position: [
@@ -60,7 +78,7 @@ const diagram = {
     [x, b, x, x, x, x, x, x, x],
     [x, x, b, b, x, x, x, x, x],
     [x, x, x, x, x, x, x, x, x],
-    [x, x, x, x, x, x, x, x, x],
+    [x, x, x, x, c, s, t, x, x],
     [x, x, x, x, x, x, w, x, x],
     [x, x, x, x, w, x, x, x, x],
     [x, x, x, x, x, x, x, x, x],
@@ -69,3 +87,12 @@ const diagram = {
 }
 
 goban.refresh(diagram)
+
+const mousePositionDisplay = document.createElement('p')
+document.body.appendChild(mousePositionDisplay)
+
+canvas.addEventListener('mousemove', event => {
+  const position = goban.mousePosition(event)
+
+  mousePositionDisplay.innerText = `${position.mouseX} x ${position.mouseY}`
+})
