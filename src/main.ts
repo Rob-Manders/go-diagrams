@@ -71,6 +71,12 @@ const t = {
   symbol: Symbol.TRIANGLE
 }
 
+const l = {
+  stone: Stone.BLACK,
+  ghost: false,
+  label: 'abcde'
+}
+
 const diagram = {
   name: 'Test Diagram',
   position: [
@@ -80,7 +86,7 @@ const diagram = {
     [x, x, x, x, x, x, x, x, x],
     [x, x, x, x, c, s, t, x, x],
     [x, x, x, x, x, x, w, x, x],
-    [x, x, x, x, w, x, x, x, x],
+    [x, x, l, x, w, x, x, x, x],
     [x, x, x, x, x, x, x, x, x],
     [x, x, x, x, x, x, x, x, x],
   ]

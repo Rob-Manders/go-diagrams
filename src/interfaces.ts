@@ -43,7 +43,7 @@ export interface Cell {
   stone: Stone,
   ghost: boolean,
   symbol?: Symbol,
-  label?: Uint8Array,
+  label?: string,
 }
 
 export interface Position {

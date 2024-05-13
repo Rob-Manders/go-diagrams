@@ -56,16 +56,9 @@ export class Goban {
   }
 
   private drawSymbol(stone: Stone, symbol: Symbol, xPos: number, yPos: number, ghost: boolean) {
-    const { r, g, b } = this.bgColour
+    if (stone === Stone.NONE) this.drawBackground(xPos, yPos, ghost)
+    
     const opacity = ghost ? '0.5' : '1'
-
-    if (stone === Stone.NONE) {
-      this.context.beginPath()
-      this.context.arc(xPos, yPos, (this.cellSize * 0.8) / 2, 0, 2 * Math.PI)
-      this.context.fillStyle = `rgba(${r}, ${g}, ${b}, 0.5`
-      this.context.fill()
-    }
-
     const symbolColour = stone === Stone.BLACK ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`
 
     switch (symbol) {
@@ -80,8 +73,29 @@ export class Goban {
     }
   }
   
-  private drawLabel(stone: Stone, label: Uint8Array, xPos: number, yPos: number, ghost: boolean) {
-    return
+  private drawLabel(stone: Stone, label: string, xPos: number, yPos: number, ghost: boolean) {
+    if (stone === Stone.NONE) this.drawBackground(xPos, yPos, ghost)
+  
+    const opacity = ghost ? '0.5' : '1'
+    const colour = stone === Stone.BLACK ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`
+    const fontSize = this.cellSize / 2
+
+    this.context.fillStyle = colour
+    this.context.font = `${fontSize}px georgia`
+    this.context.textAlign = 'center'
+    this.context.textBaseline = 'middle'
+
+    this.context.fillText(label.slice(0, 2), xPos, yPos)
+  }
+
+  private drawBackground(xPos: number, yPos: number, ghost: boolean) {
+    const { r, g, b } = this.bgColour
+    const opacity = ghost ? '0.5' : '1'
+
+    this.context.beginPath()
+    this.context.arc(xPos, yPos, (this.cellSize * 0.8) / 2, 0, 2 * Math.PI)
+    this.context.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity}`
+    this.context.fill()
   }
 
   private drawStone(
